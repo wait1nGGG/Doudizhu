@@ -1072,6 +1072,13 @@ function showWinScreen(humanWins, isLandlordWin, winnerIdx) {
 }
 
 // ==================== EVENT HANDLERS ====================
+function syncOpButton() {
+  const panel = document.getElementById('op-panel');
+  const btn = document.getElementById('op-toggle');
+  if (!panel || !btn) return;
+  btn.textContent = panel.classList.contains('op-closed') ? '⚡ OP' : '⚡ OP (收起)';
+}
+
 function bindButtons() {
   const bind = (id, fn) => { const el = document.getElementById(id); if (el) el.addEventListener('click', fn); };
   bind('btn-bid', () => { game.humanBid(true); updateStatus(game, '你：抢地主！'); });
@@ -1089,13 +1096,14 @@ function bindButtons() {
   });
   const runOP = (mode) => {
     document.getElementById('op-panel').classList.add('op-closed');
+    syncOpButton();
     const wo = document.getElementById('win-overlay'); if (wo) wo.classList.add('hidden');
     hideOverlay();
     game.startOPGame(mode);
   };
   bind('op-toggle', function () {
     document.getElementById('op-panel').classList.toggle('op-closed');
-    this.textContent = document.getElementById('op-panel').classList.contains('op-closed') ? '⚡ OP' : '⚡ OP (收起)';
+    syncOpButton();
   });
   bind('op-bomb', () => runOP('bomb'));
   bind('op-plane', () => runOP('plane'));
@@ -1110,6 +1118,7 @@ function resetGame() {
   game = new Game();
   window.game = game;
   game.startNewGame();
+  syncOpButton();
 }
 
 // ==================== DRAG SELECTION ====================
