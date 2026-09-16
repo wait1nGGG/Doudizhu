@@ -1050,6 +1050,9 @@ class Game {
 
   _executePass(playerIdx) {
     this.passCount++;
+    // 出牌和不出都是"这一轮结束"，都要清掉待出的选牌。
+    // 否则「提示」选中的牌会一直立着，直到后面有人出牌才被顺手清掉。
+    this.selectedCards = [];
     this.lastPlayByPlayer[playerIdx] = 'pass';
     this.playHistory.push({ playerIdx, playerName: NAMES[playerIdx], action: 'pass' });
     updateStatus(this, `${NAMES[playerIdx]} 不出`);
