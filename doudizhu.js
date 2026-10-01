@@ -16,6 +16,9 @@ TOTAL_BY_RANK[16] = 1;   // 小王
 TOTAL_BY_RANK[17] = 1;   // 大王
 const ALL_RANKS = Object.keys(TOTAL_BY_RANK).map(Number).sort((a, b) => a - b);
 
+// OP 各模式的中文名，状态栏文案用
+const OP_LABEL = { bomb:'炸弹', plane:'飞机', plane4:'长飞机', rocket:'王炸', bomb5:'五炸', rockets:'全王炸' };
+
 // ==================== CARD UTILS ====================
 function createCard(suit, value) {
   const id = suit ? `${suit}_${value}` : `joker_${value}`;
@@ -827,8 +830,7 @@ class Game {
       this.lastPlayedBy = null;
       this.passCount = 0;
       this.selectedCards = [];
-      const flabel = mode === 'bomb5' ? '五炸' : '全王炸';
-      updateStatus(this, `OP：固定「${flabel}」！你是地主，请出牌`);
+      updateStatus(this, `OP：固定「${OP_LABEL[mode]}」！你是地主，请出牌`);
       renderAll(this);
       updateUI(this);
       return;
@@ -849,6 +851,18 @@ class Game {
         }
       }
       // 飞机 = 2 个连续三张
+    } else if (mode === 'plane4') {
+      // 长飞机 = 4 个连续三张 + 4 张单牌翅膀 = 16 张，起手就能一手甩出去
+      const r = 8 + Math.floor(Math.random() * 4);   // 8..11，保证 r+3 <= 14，且都是大飞机
+      const planeRanks = [r, r + 1, r + 2, r + 3];
+      for (const rk of planeRanks) for (const s of SUITS.slice(0, 3)) special.push(createCard(s, rk));
+      // 翅膀用最小的、不与飞机同点数的单张，把大牌留给玩家自己使
+      let wings = 0;
+      for (let rk = 3; rk <= 15 && wings < 4; rk++) {
+        if (planeRanks.includes(rk)) continue;
+        special.push(createCard(SUITS[0], rk));
+        wings++;
+      }
     } else if (mode === 'rocket') {
       special.push(createCard(null, 16), createCard(null, 17));
     }
@@ -877,8 +891,7 @@ class Game {
     this.passCount = 0;
     this.selectedCards = [];
 
-    const label = mode === 'bomb' ? '炸弹' : mode === 'plane' ? '飞机' : '王炸';
-    updateStatus(this, `OP：固定「${label}」！你是地主，请出牌`);
+    updateStatus(this, `OP：固定「${OP_LABEL[mode]}」！你是地主，请出牌`);
     renderAll(this);
     updateUI(this);
   }
@@ -1428,6 +1441,7 @@ function bindButtons() {
   });
   bind('op-bomb', () => runOP('bomb'));
   bind('op-plane', () => runOP('plane'));
+  bind('op-plane4', () => runOP('plane4'));
   bind('op-rocket', () => runOP('rocket'));
   bind('op-bomb5', () => runOP('bomb5'));
   bind('op-rockets', () => runOP('rockets'));

@@ -518,6 +518,13 @@ button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
     <symbol id="i-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
     </symbol>
+    <symbol id="i-plane-long" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- 飞机缩到 0.9 并上移，给下面的"跑道"让位；stroke 反除 0.9 保持 2px 视觉粗细 -->
+      <g transform="translate(1 -1.25) scale(0.9)" stroke-width="2.22">
+        <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
+      </g>
+      <path d="M4 21.5h16"/>
+    </symbol>
     <symbol id="i-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M11.6 3.3a.5.5 0 0 1 .8 0l2.9 5.5a1 1 0 0 0 1.5.3l4.3-3.7a.5.5 0 0 1 .8.5l-2.8 10.2a1 1 0 0 1-1 .8H5.9a1 1 0 0 1-1-.8L2.1 5.9a.5.5 0 0 1 .8-.5l4.3 3.7a1 1 0 0 0 1.5-.3z"/><path d="M5 21h14"/>
     </symbol>
@@ -588,6 +595,7 @@ button:focus-visible { outline:2px solid #fff; outline-offset:2px; }
       <div id="op-panel" class="op-closed">
         <button class="op-btn" id="op-bomb"   data-accent="danger"><svg aria-hidden="true"><use href="#i-burst"/></svg>固定刷炸弹</button>
         <button class="op-btn" id="op-plane"  data-accent="danger"><svg aria-hidden="true"><use href="#i-plane"/></svg>固定刷飞机</button>
+        <button class="op-btn" id="op-plane4" data-accent="danger"><svg aria-hidden="true"><use href="#i-plane-long"/></svg>固定刷长飞机</button>
         <button class="op-btn" id="op-rocket" data-accent="danger"><svg aria-hidden="true"><use href="#i-crown"/></svg>固定刷王炸</button>
         <button class="op-btn" id="op-bomb5"  data-accent="danger"><svg aria-hidden="true"><use href="#i-grid"/></svg>五炸开局</button>
         <button class="op-btn" id="op-rockets" data-accent="danger"><svg aria-hidden="true"><use href="#i-sparkles"/></svg>全王炸开局</button>
